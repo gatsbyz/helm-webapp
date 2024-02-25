@@ -1,0 +1,45 @@
+app:
+  name: app
+  group: app
+  container:
+    port: 4002
+  service:
+    type: ClusterIP
+    port: 4002
+
+  image:
+    repository: ghcr.io/gatsbyz/node-app
+    pullPolicy: Always
+    tag: latest
+  config:
+    name: backend-config
+    data:
+       - key: key
+         value: value
+
+postgres:
+  secretName: postgres-secret
+  username: postgresql-username
+  password: postgresql-password
+  database: consensys
+  host: postgres
+  port: 5432
+
+replicaCount: 1
+
+env: false
+
+resources: {}
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+readinessProbe:
+  path: /
+
+livenessProbe:
+  path: /

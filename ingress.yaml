@@ -1,0 +1,12 @@
+ingress:
+  hosts:
+    - host: gatsbeta.local
+      paths: 
+        - path: /api/
+          backend:
+            serviceName: backend
+            servicePort: 4002
+        - path: /
+          backend:
+            serviceName: frontend
+            servicePort: 80
