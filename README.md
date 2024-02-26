@@ -6,6 +6,9 @@ Software / System Requirements that I used
 - Darwin 14.2.1 (arm64)
 - Docker container (CPUs=2, Memory=7798MB)
 
+Architecture Diagram
+![Architecture Diagram](arch.png)
+
 1. Add `127.0.0.1 app.gatsby.local` to your machine’s hosts file
     1. It will map your `localhost` IP address to both hostnames and makes them accessible when  `minikube tunnel` command is ran later on.
         
