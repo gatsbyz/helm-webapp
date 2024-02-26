@@ -1,7 +1,13 @@
-# helm-webapp
+Software / System Requirements that I used
+
+- minikube v1.32.0
+- Kubernetes v1.28.3
+- Docker 24.0.7
+- Darwin 14.2.1 (arm64)
+- Docker container (CPUs=2, Memory=7798MB)
 
 1. Add `127.0.0.1 app.gatsby.local` to your machine’s hosts file
-    1. It will map your `localhost` IP address to both hostnames and makes them accessible after running the `minikube tunnel` command.
+    1. It will map your `localhost` IP address to both hostnames and makes them accessible when  `minikube tunnel` command is ran later on.
         
         ```
         ➜  helm git:(main) ✗ cat /etc/hosts
@@ -18,7 +24,7 @@
         # To allow the same kube context to work on the host and the container:
         127.0.0.1 kubernetes.docker.internal
         # End of section
-        127.0.0.1 app.gatsby.local
+        127.0.0.1 app.gatsby.local # HERE IS THE CHANGE WE WANT
         ```
         
 2. Start Minikube + Enable Ingress Addon
@@ -28,8 +34,25 @@
     minikube addons enable ingress
     ```
     
+    1. Or you can Install NGINX Ingress Controller like this if you want? But go with the addon because i tested that one
+        
+        ```bash
+        kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.9.6/deploy/static/provider/cloud/deploy.yaml
+        
+        # If already installed
+        # helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace
+        ```
+        
 3. Create Secrets
-    1. An `.env` file is provided with sensitive variables. In production, this would be in a Secrets Manager.
+    1. Source `.env`. It is provided with sensitive variables. In production, this would be in a Secrets Manager.
+        
+        ```
+        set -a # automatically export all variables
+        source .env
+        set +a # stop automatically exporting
+        ```
+        
+        (or just paste this into the terminal)
         
         ```bash
         HOST=app.gatsby.local # if this was a real DNS, i would insert the IP address, not the domain name
@@ -59,13 +82,7 @@
         --from-literal=postgresql-password=${POSTGRES_PASSWORD}
         ```
         
-4. Install NGINX Ingress Controller
-    
-    ```bash
-    helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace
-    ```
-    
-5. Install Prometheus for Postgres Monitoring
+4. Install Prometheus for Postgres Monitoring
     
     ```bash
     helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -85,7 +102,7 @@
       --set serviceMonitor.enabled=true
     ```
     
-6. Install Istio as Service Mesh for secure comm between BE and DB
+5. Install Istio as Service Mesh for secure comm between BE and DB
     
     ```bash
     helm repo add istio https://istio-release.storage.googleapis.com/charts
@@ -97,16 +114,16 @@
     helm upgrade --install istiod istio/istiod -n istio-system --wait
     ```
     
-7. Run Helm Chart for the Web App
+6. Run Helm Chart for the Web App
     
     ```bash
     helm upgrade --install webapp ./webapp
     ```
     
-8. Start Minikube Tunnel
+7. Start Minikube Tunnel
     
     ```bash
     minikube tunnel
     ```
     
-9. Go to [`https://app.gatsby.local/`](https://app.gatsby.local/)
+8. Go to [`https://app.gatsby.local/`](https://app.gatsby.local/)
