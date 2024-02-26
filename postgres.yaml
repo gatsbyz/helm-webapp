@@ -1,9 +1,0 @@
-postgres:
-  config:
-    data:
-      - key: POSTGRES_DB
-        value: consensys
-      - key: POSTGRES_USER
-        value: postgres
-      - key: POSTGRES_PASSWORD
-        value: postgres

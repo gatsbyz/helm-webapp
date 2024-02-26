@@ -10,5 +10,5 @@ spec:
   type: {{ .Values.backend.service.type }}
   ports:
     - port: {{ .Values.backend.service.port }}       
-      targetPort: {{ .Values.backend.service.port }}   
+      targetPort: {{ .Values.backend.container.port }}   
       protocol: TCP

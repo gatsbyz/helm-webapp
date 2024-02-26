@@ -1,0 +1,77 @@
+apiVersion: v2
+
+replicaCount: 1
+
+backend:
+  name: backend
+  group: api
+  container:
+    port: 4002
+  service:
+    type: ClusterIP
+    port: 4002
+  image:
+    repository: ghcr.io/gatsbyz/node-app
+    pullPolicy: Always
+    tag: latest
+  config:
+    name: backend-config
+    data:
+       - key: key
+         value: value
+
+postgres:
+  name: postgres
+  group: db
+  container:
+    image: postgres:13
+    port: 5432
+  service:
+    type: ClusterIP
+    port: 5432
+  volume:
+    name: postgres-storage
+    kind: PersistentVolumeClaim
+    mountPath: /var/lib/postgresql/data
+    pvc:
+      name: postgres-persistent-volume-claim
+      accessMode: ReadWriteOnce
+      storage: 4Gi
+  secretName: postgres-secret
+  username: postgresql-username
+  password: postgresql-password
+  database: consensys
+  host: postgres
+  port: 5432
+
+frontend:
+  name: frontend
+  group: client
+  service:
+    type: ClusterIP
+    port: 3000
+  container:
+    port: 3000
+  image:
+    repository: ghcr.io/gatsbyz/nextjs-app
+    tag: latest
+    pullPolicy: Always
+
+readinessProbe:
+  path: /
+
+livenessProbe:
+  path: /
+
+ingress:
+  enabled: true
+  className: nginx
+  tls:
+    secretName: certificate
+    host: app.gatsby.local
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 50

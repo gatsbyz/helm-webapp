@@ -27,9 +27,19 @@ spec:
           image: {{ .Values.postgres.container.image }}  
           ports:
             - containerPort: {{ .Values.postgres.container.port }}
-          envFrom:
-            - configMapRef:
-                name: {{ .Values.postgres.config.name }}
           volumeMounts:             
             - name: {{ .Values.postgres.volume.name }}
               mountPath: {{ .Values.postgres.volume.mountPath }} 
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.postgres.secretName }}
+                  key: {{ .Values.postgres.username }}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.postgres.secretName }}
+                  key: {{ .Values.postgres.password }}
+            - name: POSTGRES_DB
+              value: {{ .Values.postgres.database }}

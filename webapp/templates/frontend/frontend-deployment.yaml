@@ -5,12 +5,13 @@ metadata:
   labels:
     app: {{ .Values.frontend.name }}
 spec:
+  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
       app: {{ .Values.frontend.name }}
   template:
-    name: {{ .Values.frontend.name }}
     metadata:
       labels:
         app: {{ .Values.frontend.name }}
@@ -21,15 +22,15 @@ spec:
           imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.frontend.image.containerPort }}
+              containerPort: {{ .Values.frontend.container.port }}
           livenessProbe:
             httpGet:
               path: /
-              port: {{ .Values.frontend.service.port }}
+              port: {{ .Values.frontend.container.port }}
           readinessProbe:
             httpGet:
               path: /
-              port: {{ .Values.frontend.service.port }}
+              port: {{ .Values.frontend.container.port }}
           # env:
           #   - name: NEXT_PUBLIC_BACKEND_HOST
           #     value: {{ .Values.backend.name }}

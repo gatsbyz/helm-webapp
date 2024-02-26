@@ -1,0 +1,30 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  tls:
+  - hosts: 
+    - {{ .Values.ingress.tls.host }}
+    secretName: {{ .Values.ingress.tls.secretName }}
+  rules:
+  - host: app.gatsby.local
+    http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Values.backend.name }}
+            port:
+              number: {{ .Values.backend.container.port }}
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Values.frontend.name }}
+            port:
+              number: {{ .Values.frontend.container.port }}
+{{- end }}
