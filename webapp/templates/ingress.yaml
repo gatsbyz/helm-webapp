@@ -10,7 +10,7 @@ spec:
     - {{ .Values.ingress.tls.host }}
     secretName: {{ .Values.ingress.tls.secretName }}
   rules:
-  - host: app.gatsby.local
+  - host: www.gatsbyz.dev
     http:
       paths:
       - path: /api
