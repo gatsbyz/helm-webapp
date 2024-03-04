@@ -1,13 +1,16 @@
-# apiVersion: security.istio.io/v1beta1
-# kind: PeerAuthentication
-# metadata:
-#   name: backend-peer-auth
-# spec:
-#   selector:
-#     matchLabels:
-#       app: backend
-#   mtls:
-#     mode: STRICT
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: backend-peer-auth
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  mtls:
+    mode: STRICT
+  portLevelMtls:
+    4002:
+      mode: DISABLE
 
 ---
 
@@ -21,3 +24,7 @@ spec:
       app: postgres
   mtls:
     mode: STRICT
+  portLevelMtls:
+    5432:
+      mode: DISABLE
+  

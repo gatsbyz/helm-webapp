@@ -23,6 +23,11 @@ spec:
           ports:
             - name: http
               containerPort: {{ .Values.frontend.container.port }}
+          resources:
+            # limits:
+            #   cpu: 200m  # Decreased from 500m, assuming 2x of peak for safety
+            requests:
+              cpu: 100m  # Set above observed to avoid too aggressive scaling
           livenessProbe:
             httpGet:
               path: /

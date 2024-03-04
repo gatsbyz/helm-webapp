@@ -11,7 +11,7 @@ backend:
     type: ClusterIP
     port: 4002
   image:
-    repository: gcr.io/gatsbyz/node-app
+    repository: ghcr.io/gatsbyz/node-app
     pullPolicy: Always
     tag: latest
   config:
@@ -53,7 +53,7 @@ frontend:
   container:
     port: 3000
   image:
-    repository: gcr.io/gatsbyz/nextjs-app
+    repository: ghcr.io/gatsbyz/nextjs-app
     tag: latest
     pullPolicy: Always
 

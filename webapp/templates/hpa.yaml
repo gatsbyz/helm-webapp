@@ -52,7 +52,7 @@ spec:
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: postgres-hpa
+  name: {{ .Values.postgres.name }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -67,8 +67,8 @@ spec:
         name: pg_stat_activity_count
         selector:
           matchLabels:
-            state: active
+            datname: consensys
       target:
         type: Value
-        value: 100
+        value: 50
 {{- end }}
