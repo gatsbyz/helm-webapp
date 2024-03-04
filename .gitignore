@@ -1,4 +1,6 @@
 *.crt
 *.key
 
+*.js
+
 .DS_STORE

@@ -1,0 +1,23 @@
+serverFiles:
+  prometheus.yml:
+    scrape_configs:
+      - job_name: postgres-prometheus
+        scrape_interval: 5s
+        # scrape_timeout:  30s
+        metrics_path: /metrics
+        static_configs:
+          - targets:
+            - postgres-exporter-prometheus-postgres-exporter:80
+alertmanager:
+  enabled: false
+prometheus-node-exporter:
+  enabled: false
+prometheus-pushgateway:
+  enabled: false
+
+server:
+  remote_write:
+  - url: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push
+    basic_auth:
+      username: 1456201
+      password: glc_eyJvIjoiMTA2NzgxNyIsIm4iOiJzdGFjay04NzE5MzgtaG0tcmVhZC10ZXN0IiwiayI6IlI1TmUwempNajVWMjA5NmRwMm40SDhrViIsIm0iOnsiciI6InByb2QtdXMtZWFzdC0wIn19

@@ -1,0 +1,17 @@
+config:
+  datasource:
+    host: postgres
+    userSecret:
+      name: postgres-secret
+      key: postgresql-username
+    passwordSecret:
+      name: postgres-secret
+      key: postgresql-password
+    database: consensys
+    sslmode: disable
+  # disableDefaultMetrics: true
+  annotations:
+    prometheus.io/scrape: true
+    # prometheus.io/port: 80
+# serviceMonitor:
+#   enabled: true

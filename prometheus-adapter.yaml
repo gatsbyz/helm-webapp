@@ -1,0 +1,15 @@
+rules:
+  external:
+  - seriesQuery: 'pg_stat_activity_count{state="active"}'
+    resources:
+      template: <<.Resource>>
+    name:
+      matches: pg_stat_activity_count
+      as: pg_stat_activity_count
+    metricsQuery: sum(pg_stat_activity_count{state="active"}) by (datname)
+
+prometheus:
+  url: http://prometheus-server.default.svc.cluster.local
+  port: 80
+  path: ""
+  
