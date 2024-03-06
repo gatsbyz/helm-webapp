@@ -26,20 +26,22 @@ spec:
             - containerPort: {{ .Values.backend.container.port }}
               name: http # added
           resources:
-            # limits:
-            #   cpu: 100m  # Assuming potential spikes, provide a buffer
+            limits:
+              # memory: "2Gi"
+              # cpu: 500m  # Assuming potential spikes, provide a buffer
             requests:
-              cpu: 50m  # Set above observed usage to avoid overly aggressive scaling
+              memory: 256Mi
+              cpu: 1000m  # Set above observed usage to avoid overly aggressive scaling
           livenessProbe:
             httpGet:
               path: /api/health
               port: {{ .Values.backend.container.port }}
-            initialDelaySeconds: 4
+            initialDelaySeconds: 20
           readinessProbe:
             httpGet:
               path: /api/health
               port: {{ .Values.backend.container.port }}
-            initialDelaySeconds: 4
+            initialDelaySeconds: 20
           env:
             - name: POSTGRES_HOST
               value: {{ .Values.postgres.host }}
