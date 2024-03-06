@@ -57,11 +57,11 @@ frontend:
     tag: latest
     pullPolicy: Always
 
-readinessProbe:
-  path: /
+# readinessProbe:
+#   path: /
 
-livenessProbe:
-  path: /
+# livenessProbe:
+#   path: /
 
 ingress:
   enabled: true

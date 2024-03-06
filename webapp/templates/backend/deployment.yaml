@@ -4,6 +4,7 @@ metadata:
   name: {{ .Values.backend.name }}
   labels:
     app: {{ .Values.backend.name }}
+    group: {{ .Values.backend.group }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -15,6 +16,7 @@ spec:
     metadata:
       labels:
         app: {{ .Values.backend.name }}
+        sidecar.istio.io/inject: "true"
     spec:
       containers:
         - name: {{ .Values.backend.name }}

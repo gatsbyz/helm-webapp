@@ -4,6 +4,7 @@ metadata:
   name: {{ .Values.frontend.name }}
   labels:
     app: {{ .Values.frontend.name }}
+    group: {{ .Values.frontend.group }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}

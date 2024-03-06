@@ -17,6 +17,7 @@ spec:
       labels:
         app: {{ .Values.postgres.name }}
         group: {{ .Values.postgres.group }}
+        sidecar.istio.io/inject: "true"
     spec:
       volumes:
         - name: {{ .Values.postgres.volume.name }}
